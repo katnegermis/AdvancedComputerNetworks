@@ -33,12 +33,12 @@ b)
 
 \begin{align*}
     BDP &= bandwidth \cdot latency \Rightarrow\\
-    BDP &= 100\ Mb/s \cdot 2.567\ s = 256.7\ Mb = 32.0875\ MB
+    BDP &= 100\ Mb/s \cdot \frac{2.567}{2}\ s = 128.35\ Mb = 16.04\ MB
 \end{align*}
 
 c)
 ----
-Assuming that TCP is used and that a connection is already established, we need to wait one latency for the first packet to arrive at the receiver and one latency for the last acknowledgement to arrive at the sender. I will also assume that the transfer rate is constant
+Assuming that TCP is used and that a connection is already established, we need to wait one latency for the first packet to arrive at the receiver and one latency for the last acknowledgment to arrive at the sender. I will also assume that the transfer rate is constant
 \begin{align*}
     Transmission time &= RTT + Time to transfer file
     Transmission time &= 2.567 + \frac{25 \cdot 8\ Mb}{100\ Mb/s} = 4.567
@@ -52,21 +52,34 @@ Question 3
 a)
 ----
 
-$BDP = \frac{1\ Gb/s \cdot 0.1\ s}{8} = 12.8\ MB$
+$BDP = \frac{1\ Gb/s \cdot 0.05\ s}{8} = 51.2\ MB$
 
-A receive window of 1 MB implies that the sender can send no more than 1 MB per RTT. Since the BDP is greater than 1MB, we know that the speed of the link allows the sender to send the full 1 MB per RTT. Assuming that there already is established a TCP connection, this means that it will take 10 RTTs to send the 10 MB file, not including the time that the sender has to wait for all acknowledgements from the receiver which, with the given assumptions, would be a very small amount of time.
+A receive window of 1 MB implies that the sender can send no more than 1 MB per RTT. Since the BDP is greater than 1MB, we know that the receive window is the limiting factor of these two.
+
+We also need to account for TCP's slow start algorithm. This means that slow start will be the limiting factor until $n \ge 10$.
+
+So the total number of RTTs $n$ to send a 10 MB file can be calculated as follows:
+
+\begin{align*}
+    \{n\ |\ \sum_{i=1}^{n}{min(2^{i-1} \cdot 1\ KB, 1\ MB)} \ge 10 * 1024^2\ bytes\}
+\end{align*}
+
+We see that $n = 20$ satisfies this formula, giving us a total number of 20 RTTs in which we could transfer a maximum of 10.999 MB.
+
+I want to note here that this is only correct given the assumption of no losses, since a loss would mean that the slow start algorithm would need to back off and start from 1KB again, up until the `ssthresh` where it would increase linearly instead of exponentially.
+
+Also, this result assumes that a TCP connection has already been established.
 
 b)
 ----
 
-Transmission time: $10\ RTT \cdot 0.1\ s = 1\ s$
+Transmission time: $20\ RTT \cdot 0.1\ s = 2\ s$
 
-Throughput: $10\ MB/s \cdot 8 = 80\ Mb/s$
+Throughput: $\frac{10\ MB}{2\ s} \cdot 8 = 40\ Mb/s$
 
 c)
 ----
-
-As we saw in 3 a), the BDP of the given link is 12.8 MB. This means that increasing the receive window to $\ge$ 12.8 MB allows the sender to fully utilize the bandwidth of the link. Increasing the receive window would give an effective throughput $T = min(\text{bandwidth},\ \frac{\text{receive window size}}{\text{RTT}})$.
+We can pretty easily figure out how much we need to increase the receive window by in order not to have it be the limiting factor. We know that TCP's slow start algorithm doubles the congestion window every RTT (given there are no losses) which means that in order to not have the receive window be the limiting factor, we just need to make it at least $\frac{10 MB}{2} = 5 MB$. This works because, if slow start $\le$ 5 MB then slow start will be the limiting factor, and if slow start $\ge 5 MB$ then the receive window will technically be the limiting factor, but since the file is only 10 MB big it will not matter.
 
 Question 4
 ============
@@ -117,10 +130,10 @@ Assuming that segmentation of the packets adds a 5% overhead because of headers,
 
 c)
 ----
-In this case, unlike in question 5 a), data can be transmitted in parallel: as soon as the first packet has arrived at the first switch, the first switch can forward it to the second switch _while the first switch is receiving the next packet from the source_. Since we have two hops, after the second packet is sent from the source, three packets will be sent in parallel until the source has sent all of its' 5249 packets, at which point the source has to wait for the last packet to propagate to the destination. This makes the total transfer time:
+In this case, unlike in question 5 a), data can be transmitted in parallel: as soon as the first packet has arrived at the first switch, the first switch can forward it to the second switch _while the source is sending the next packet_. Since we have three hops, most of the packets will be sent in parallel until the source has sent all of its' 5249 packets, at which point the source has to wait for the last packet to propagate to the destination. This makes the total transfer time:
 \begin{align*}
-    \text{transfer time} &= \text{time per packet} \cdot (\text{number of packets} + (2\cdot \text{number of hops})).\\
-                         &= \frac{1500/1024/1024\ Mb}{1.5\ Mb/s}\cdot (5249 + 2\cdot 2) = 5.01\ \text{seconds}.
+    \text{transfer time} &= \text{time per packet} \cdot (\text{number of packets} + \text{number of links} - 1).\\
+                         &= \frac{1500/1024^2\ Mb}{1.5\ Mb/s}\cdot (5249 + 3 - 1) = 5.008\ \text{seconds}.
 \end{align*}
 
 We see that the time it takes to send a message across many hops decreases drastically when using segmentation. It took almost three times as long to transfer 7.15 Mb data without segmentation, compared to transferring 7.5075 Mb data with segmentation. This is due to the fact that packets are transferred in parallel when we have more than one packet.
