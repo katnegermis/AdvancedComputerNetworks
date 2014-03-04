@@ -158,13 +158,13 @@ Advantages of using segmentation:
 
 Question 6
 ============
-Saltzer observes that there is a difference in the use and meaning of the word ''name''. He observes that it can be used both to describe the name of a service, mostly used by humans, and to describe the name of a network component (node, attachment point, path), mostly used by machines in order to route data.
+Saltzer observes that there is a difference in the use and meaning of the word ''name''. He observes that it can be used both to describe the name of a service, mostly used by humans, and to describe the name of a network component (node, attachment point, path), mostly used by machines in order to route data. One component might even have multiple names; for instance, he writes, it might ''...have both a hierarchical character string name and a unique binary identifier.''
 
-Furthermore, Saltzer observes that naming isn't inherently difficult or confusing. He notes that names ''... can simply and concisely be described in terms of bindings and changes of bindings ...'' What I get from this observation is that naming of network objects is much less complicated when you consider the context as an important part of a name.
+Furthermore, Saltzer observes that naming isn't inherently difficult or confusing. He notes that names ''... can simply and concisely be described in terms of bindings and changes of bindings ...'' What I understand from this statement is that naming of network objects is much less complicated and less ambiguous when you consider context to be a part of a component's name.
 
-A service (human readable) is attached to a node (machine readable)
+<!-- A service (human readable) is attached to a node (machine readable)
 A node is attached to an attachment point. In the context of routing both should probably be machine readable. In the context of talking about the particular machine between humans, the name should probably be human readable.
-
+ -->
 
 
 Question 7
