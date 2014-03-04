@@ -169,3 +169,14 @@ A node is attached to an attachment point. In the context of routing both should
 
 Question 7
 ============
+a)
+----
+This restriction is imposed because it makes routing much simpler; each node only has to care about only one level of indirection, and not about multiple (theoretically up to n-1) levels of indirection. This allows for a somewhat aggressive collection of information (through probing) about the links between nodes in the RON. Furthermore, the data in the RON paper shows that in 98% of the time where the RON is used, one level of indirection gives a faster latency than multiple levels.
+
+One disadvantage is that, in some cases, routing along more than two hops could yield a better route (reachability, or even better latency).
+
+b)
+----
+1) It would greatly improve the efficiency of RONs if the underlying network could inform a node about failed links. This way, each node wouldn't have to infer this from unexpectedly low bandwidth or high loss, which would make the decision to route differently much easier and quicker to make.
+
+2) If the underlying network were to accept route preferences from nodes, e.g. go to S via T, the RON could be used solely to find such preferences instead of also doing routing, leaving routing as the responsibility of the network. This would also to a higher degree conform with the layering of the Internet, where routing is the responsibility of the network.
