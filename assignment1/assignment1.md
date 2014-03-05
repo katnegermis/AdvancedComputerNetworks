@@ -1,10 +1,11 @@
--- Advanced Computer Networks
--- Assignment 1: Network Principles
--- March 6th 2014
+% Advanced Computer Networks
+% Assignment 1: Network Principles
+% March 6th 2014
 
-Assumptions
-=============
+## Assumptions
 In all exercise where nothing else is mentioned I assume that TCP is used for transmission, that transmission happens without loss, and that there is no processing delay in any hubs. Further more, the overhead of packet headers is not included, i.e. in calculating the time it takes to transfer a 10MB file, I will assume that only 10 MB are transferred.
+
+Throughout the exercise I use 1024 as the unit for K, 1024^2 as the unit for M etc.
 
 Question 1
 ============
@@ -107,7 +108,7 @@ Assuming that we represent a black/white pixel with 1 bit:
 
 $8$ inches $\cdot 10$ inches $= 80$ square inches
 
-$80\ \cdot 72$ pixels/square inch $= 5760\ b = 5.625\ b$
+$80\ \cdot 72$ pixels/square inch $= 5760\ b = 5.625\ Kb$
 
 Transmitting 5.625 Kb on 14.4 Kb/s takes: $\frac{5.625}{14.4} = 0.39$ seconds
 
