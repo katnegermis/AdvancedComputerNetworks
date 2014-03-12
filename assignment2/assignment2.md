@@ -94,18 +94,30 @@ Question 5
 ============
 a)
 ----
+The end-to-end argument says that everything that is not required to be implemented in the network (and can be implemented in the end-hosts) shouldn't be.
 
+One reason is that some end-hosts might not need such an 'extra' service and, if the service has been implemented at a lower layer, cannot choose not to use such service, which might unnecessarily degrade the performance of these clients.
 
 b)
 ----
-The paper gives an example of a file transfer between two computers; the only way the clients can know for sure that their file has been successfully transferred, is by comparing checksums in the end, requiring the end-hosts to exchange checksums anyway.
+- Implementing reliability of transmission of data in end-hosts.
+- Implementing secure transmission of data between end-host applications in end-host applications.
 
 c)
 ----
-Retransmission is slower and uses more bandwidth.
-Intended recipient might not receive messages delivered to network, when sending host crashes.
+- Implementing reliability of data transmission in the network.
+    - Retransmission can be much slower and uses more bandwidth.
+    - Intended recipient might not receive messages that were successfully delivered to the network by the sending host, if the sending host crashes.
+    - End-to-end checksums have to be implemented regardless of the reliability of the network.
+
+- Implementing secure transmission of data in the network.
+    - Transmission system has to be trusted with encryption keys.
+    - Data not encrypted between transmission system and application.
+    - Authenticity of application not established (though authenticity of transmission system is).
+
+- Implementing delivery guarantees in the network
+    - Application might not receive/react to message even though it has been received at transmission system.
 
 
 [^1]: http://en.wikipedia.org/wiki/Log-distance_path_loss_model#Empirical_coefficient_values_for_indoor_propagation
 [^2]: http://en.wikipedia.org/wiki/Spread_spectrum
-[^3]: http://en.wikipedia.org/wiki/End-to-end_principle
