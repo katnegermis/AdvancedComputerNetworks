@@ -74,21 +74,12 @@ A disadvantage is that when an end-host crashes, it is possible that the message
 
 c)
 ----
+One of the main advantages of using datagrams is that the network doesn't need to save any state. This means that traffic can easily be rerouted in case of network node failures. Another advantage is that the datagram has proven to be a great lowest-denominator building block on which to build other protocols on top of; both connectionless (UDP) and connection oriented (TCP) protocols have been built on top of datagrams.
 
-advantages:
-    No state
-        about connections
-        (no implied bandwidth, datagrams can be used at any bandwidth)
-    great to build things on top of
-    can implement both connection oriented and connection less protocols
+A disadvantage of using datagrams is that the network isn't reliable, but follows a best-effort approach. This means that packets can arrive out of order, and need to be reassembled at the receiving end-host. It also means that the same packet might be unnecesarily sent multiple times, and that retransmission is much more expensive since all retransmissions start at the sending end-host instead of a place closer to where the packet got dropped. Furthermore, there is an overhead in adding multiple headers to all packets, regardless of their size.
 
-drawbacks:
-    best-effort delivery
-        reordering of packets
-        duplicate packets
-    overhead in the form of headers
+A different approach would be to create a circuit switched network.
 
-other approach would be circuit switched
 
 Question 5
 ============
