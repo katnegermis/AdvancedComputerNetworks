@@ -4,6 +4,22 @@
 
 Question 1
 ============
+Assuming that the pairwise distance between the receiver and A and B is the same, the difference would be that the signal received by the receiver, i.e. the superposition of signals A and B, is going to be influenced much more by what B sends. Since the signal of B is much stronger, it makes it more difficult to interpret whether the signal decoded with A's key is really data sent from A, or just noise. On the other hand, it makes it more clear what the value of B's data is.
+
+The receiver will receive:
+
+    $A_s = A_k * A_d = (-1, +1, -1, -1, +1, +1) * +1 = (-1, +1, -1, -1, +1, +1)$
+    $B_s = A_k * A_d = (+1, +1, -1, +1, -1, +1) * -1 = (-1, -1, +1, -1, +1, -1)$
+    $R' = A_s + 5*B_s = (-1, +1, -1, -1, +1, +1) + (-5, -5, +5, -5, +5, -5) = (-6, -4, +4, -6, +6, -4)$
+
+Allowing the receiver to detect:
+    $A_d = R * A_k = (-6, -4, +4, -6, +6, -4) * (-1, +1, -1, -1, +1, +1) = 6 - 4 - 4 + 6 + 6 - 4 = 6$
+    $B_d = R * B_k = (-6, -4, +4, -6, +6, -4) * (+1, +1, -1, +1, -1, +1) = -6 - 4 - 4 - 6 - 6 - 4 = -30$
+
+On the lecture slides, the results obtained above are divided by the length of the code for each terminal. I haven't done that since it isn't done the same way in the course litterature. This doesn't seem very important though, as it would change both results by the same factor.
+
+Since the receiver might interpret $A_d$ as noise, this can be considered an instance of the near far problem, where the solution is to dynamically adjust the power with which the terminals transmit. In this case we assumed that A and B were at an equal distance from the receiver, which means that we can solve the problem by making A and B transmit with the same power.
+
 
 Question 2
 ============
