@@ -33,21 +33,21 @@ a)
 ----
 Adding noise to the signal gives:
 \begin{align*}
-    \text{Noise} = (+1, -1, 0, +1, 0, -1)\\
-    R'' = R + Noise = (-1, -1, 0, -1, +2, -1)
+    \text{Noise} &= (+1, -1, 0, +1, 0, -1)\\
+    R'' &= R + Noise = (-1, -1, 0, -1, +2, -1)
 \end{align*}
 
 Meaning that the receiver can detect:
 \begin{align*}
-    A_d &= R'' \cdot A_k = (-1, +1, -1, -1, +1, +1) * (-1, -1, 0, -1, +2, -1) = 1 - 1 + 0 + 1 - 2 - 1 = -2
-    B_d &= R'' \cdot B_k = (+1, +1, -1, +1, -1, +1) * (-1, -1, 0, -1, +2, -1) = -1 - 1 + 0 + 1 + 2 - 1 = 0
+    A_d &= R'' \cdot A_k = 1 - 1 + 0 + 1 - 2 - 1 = -2\\
+    B_d &= R'' \cdot B_k = -1 - 1 + 0 + 1 + 2 - 1 = 0
 \end{align*}
 
-The added noise means that the receiver no longer can detect the bit that B sent, while the data sent by A only shows a slight indication of a binary 1, meaning that it is likely to be considered noise.
+The added noise means that the receiver no longer can detect the bit B sent, while the data sent by A only shows a slight indication of a binary 1, meaning that it is likely to be considered noise.
 
 b)
 ----
-Considering the near/far problem as well adds even more variables to the calculations, meaning that we also have to consider pairwise distance between transmitters and receiver, as well as the power with which the transmitters transmit.
+Considering the near/far problem as well adds even more variables to be considered, meaning that we also have to consider pairwise distance between transmitters and receiver, as well as the power with which the transmitters transmit.
 
 Question 3
 ============
@@ -119,9 +119,9 @@ Question 8
 
 a)
 ----
-That one device A knows which packets ($p \in P$) other devices (to which A is sending) have received, so that these devices can use their p's to decode the packets that A is sending them, which are encoded with p.
+It is assumed that device A knows which packets $P_X$ other devices $X$ have and haven't received, and which packets these devices were supposed to receive but didn't, so that A can act as a wireless gateway using $P_X$ to encode the packets that these devices didn't receive, but were meant to receive.
 
-This also implicitly assumes that A will receive some packets meant for some other device B, which B can't receive itself.
+This also implicitly assumes that A receives some packet meant for some other device B, which B didn't receive itself, and furthermore that A knows that B didn't receive that packet.
 
 
 b)
