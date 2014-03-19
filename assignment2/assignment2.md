@@ -1,6 +1,6 @@
 % Advanced Computer Networks
 % Assignment 2: Wireless Networks: Fundamentals
-% March 13th 2014
+% Michael Bang, March 13th 2014
 
 Question 1
 ============
