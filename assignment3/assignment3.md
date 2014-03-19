@@ -9,7 +9,7 @@ Assuming that the pairwise distance between the receiver and A and B is the same
 The receiver will receive:
 \begin{align*}
     A_s &= A_k \cdot A_d = (-1, +1, -1, -1, +1, +1) \cdot +1 = (-1, +1, -1, -1, +1, +1)\\
-    B_s &= A_k \cdot A_d = (+1, +1, -1, +1, -1, +1) \cdot -1 = (-1, -1, +1, -1, +1, -1)\\
+    B_s &= B_k \cdot B_d = (+1, +1, -1, +1, -1, +1) \cdot -1 = (-1, -1, +1, -1, +1, -1)\\
      R' &= A_s + 5\cdot B_s = (-6, -4, +4, -6, +6, -4)\\
 \end{align*}
 
@@ -39,11 +39,11 @@ Adding noise to the signal gives:
 
 Meaning that the receiver can detect:
 \begin{align*}
-    A_d &= R'' \cdot A_k = 1 - 1 + 0 + 1 - 2 - 1 = -2\\
-    B_d &= R'' \cdot B_k = -1 - 1 + 0 + 1 + 2 - 1 = 0
+    A_d &= R'' \cdot A_k = 1 - 1 + 0 + 1 + 2 - 1 = 2\\
+    B_d &= R'' \cdot B_k = -1 - 1 + 0 - 1 - 2 - 1 = -6
 \end{align*}
 
-The added noise means that the receiver no longer can detect the bit B sent, while the data sent by A only shows a slight indication of a binary 1, meaning that it is likely to be considered noise.
+The added noise means that it is more difficult to detect which bit A sent, while it is still reasonable to assume that the bit B sent can be correctly detected to be a 0.
 
 b)
 ----
