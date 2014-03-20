@@ -126,3 +126,4 @@ This also implicitly assumes that A receives some packet meant for some other de
 
 b)
 ----
+One of the tricks that COPE uses, is to piggyback on (cleverly [ab]use) a lot of the functionality of 802.11. For instance, COPE uses 802.11 unicast to do what they call pseudo-broadcasting, leveraging 802.11's retransmission protocol for the addressed receiver, while putting nodes in promiscuous mode, letting them 'overhear' unicast packets that aren't meant for them, allowing for pseudo-broadcast. This means that CODE only has to worry about retransmissions for nodes that weren't directly addressed in the unicast packet. This is done cleverly by leveraging COPE's coding scheme.
