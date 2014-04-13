@@ -53,14 +53,13 @@ This decreases the inter-symbol interference greatly, meaning that it will be ea
 Question 5
 ============
 
-% Read paper
-
 a)
 ----
+I believe that the most noteworthy part is that RRAA uses the per-frame RTS option of 802.11; as more collisions are detected, RSAA will make more frames use RTS. By using RTS, RRAA ensures that data frames can be transmitted without collisions, at the cost of polling (this closely resembles what is done in Bluetooth). Using RTS in other circumstances can degrade the overall performance, but RRAA uses RTS for exactly what it's good for: situations with lots of collisions (of which the hidden terminal problem often is the cause).
 
 b)
 ----
-
+The RRAA adapts well and fast to changing conditions. Especially noteworthy is the adaption to and handling of collisions, often caused by the hidden terminal problem.
 
 Question 6
 ============
