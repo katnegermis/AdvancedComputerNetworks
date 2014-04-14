@@ -33,7 +33,11 @@ Assuming that TCP Reno was used (which seems to be the case because of the way t
 
 d)
 ----
+With indirect TCP, the access point acts as a middle man. In this case, if the middle man is compromised, the encryption will not help the end host. It also may be the case that the access point doesn't encrypt the connection between itself and the end host, in which case others may listen in on the the traffic. Unless the access point is _known_ to be non-compromised and non-hostile, the connection can not be considered safe.
 
+Snooping TCP is simply not possible with an encrypted TCP payload; there is no way for the access point to know whether a packet has been lost or not since it doesn't have access to port- and sequence numbers of the TCP packet.
+
+Selective retransmission and fast retransmit will work well with encrypted packets since the access point is not involved.
 
 
 Question 4
