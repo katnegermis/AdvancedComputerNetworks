@@ -48,6 +48,7 @@ class ControllerMixin(object):
         OFPP_NONE if you're generating this packet.
         """
         msg = of.ofp_packet_out()
+
         msg.in_port = in_port
         if buffer_id != -1 and buffer_id is not None:
             # We got a buffer ID from the switch; use that
@@ -80,6 +81,15 @@ class ControllerMixin(object):
     def flood(self, packet, packet_in):
         self.send_packet(packet_in.buffer_id, packet_in.data,
                          of.OFPP_FLOOD, packet_in.in_port)
+
+    def add_microflow_mac_to_port(self, packet, packet_in):
+        src_mac = packet.src
+        src_port = packet_in.in_port
+
+        fm = of.ofp_flow_mod()
+        fm.match.dl_dst = src_mac
+        fm.actions.append(of.ofp_action_output(port=src_port))
+        self.connection.send(fm)
 
 
 def launch():

@@ -23,23 +23,25 @@ from utils import ControllerMixin, launch, Global
 log = core.getLogger()
 
 
-class LearningController(ControllerMixin):
+class LearningControllerReactive(ControllerMixin):
     def __init__(self, *args, **kwargs):
-        super(LearningController, self).__init__(*args, **kwargs)
-        self.handle_packet = self.act_like_switch
+        super(LearningControllerReactive, self).__init__(*args, **kwargs)
+        self.handle_packet = self.act_like_switch_reactive
 
-    def act_like_switch(self, packet, packet_in):
-        # packet (ethernet)
-        # packet_in (ofp_packet_in)
-
+    def act_like_switch_reactive(self, packet, packet_in):
         # Learn the port for the source MAC
         src_mac = packet.src
         src_port = packet_in.in_port
+
+        # If we didn't already know src_mac, or the mac->port mapping has
+        # changed, we add a microflow rule to the switch.
+        if self.mac_to_port.get(src_mac, None) != src_port:
+            log.debug("Forward packets from {} to port {}".format(src_mac, src_port))
+            self.add_microflow_mac_to_port(packet, packet_in)
         self.mac_to_port[src_mac] = src_port
 
         # If packet is multicast, flood it.
         if packet.dst.isMulticast():
-            # log.debug("Broadcast from {src}".format(src=src_mac))
             self.flood(packet, packet_in)
             return
 
@@ -60,4 +62,4 @@ class LearningController(ControllerMixin):
                          dst_port, packet_in.in_port)
 
 
-Global.controller = LearningController
+Global.controller = LearningControllerReactive
