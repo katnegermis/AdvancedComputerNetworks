@@ -21,6 +21,7 @@ import pox.openflow.libopenflow_01 as of
 
 log = core.getLogger()
 
+
 class Global:
     controller = None
 
