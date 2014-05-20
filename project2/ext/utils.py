@@ -39,7 +39,7 @@ class ControllerMixin(object):
         # which switch port (keys are MACs, values are ports).
         self.mac_to_port = {}
 
-        self.handle_packet = lambda a, b, c: None
+        self.handle_packet = lambda a, b: None
 
     def send_packet(self, buffer_id, raw_data, out_port, in_port):
         """
