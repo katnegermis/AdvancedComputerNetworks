@@ -51,7 +51,8 @@ class Part3Controller(ControllerMixin):
 
     def _handle_ConnectionUp(self, event):
         self.switch = int(event.dpid)
-        log.debug("Switch %s has come up.", self.switch)
+
+        # Here, I'm installing all routing rules statically in to the switches.
 
         # Forwarding rules for switch 1
         if self.switch == 1:
