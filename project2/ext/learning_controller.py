@@ -29,9 +29,6 @@ class LearningController(ControllerMixin):
         self.handle_packet = self.act_like_switch
 
     def act_like_switch(self, packet, packet_in):
-        # packet (ethernet)
-        # packet_in (ofp_packet_in)
-
         # Learn the port for the source MAC
         src_mac = packet.src
         src_port = packet_in.in_port
@@ -39,7 +36,6 @@ class LearningController(ControllerMixin):
 
         # If packet is multicast, flood it.
         if packet.dst.isMulticast():
-            # log.debug("Broadcast from {src}".format(src=src_mac))
             self.flood(packet, packet_in)
             return
 
@@ -48,14 +44,10 @@ class LearningController(ControllerMixin):
         dst_port = self.mac_to_port.get(dst_mac, None)
         # If we don't yet know the dst port, we flood the packet.
         if not dst_port:
-            # log.debug("Flooding unicast from {src} to {dst}".format(src=src_mac,
-                                                                    # dst=dst_mac))
             self.flood(packet, packet_in)
             return
 
-        # We know dst port. U
-        # log.debug("Unicast from {src} to {dst}".format(src=src_mac,
-                                                       # dst=dst_mac))
+        # Controller knows which port dst is on. Unicast packet.
         self.send_packet(packet_in.buffer_id, packet_in.data,
                          dst_port, packet_in.in_port)
 

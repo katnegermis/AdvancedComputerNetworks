@@ -50,16 +50,12 @@ class LearningControllerReactive(ControllerMixin):
         dst_port = self.mac_to_port.get(dst_mac, None)
         # If controller doesn't know dst, we flood the packet.
         if dst_port is None:
-            log.debug("Flooding unicast from {src} to {dst}".format(src=src_mac,
-                                                                    dst=dst_mac))
             self.flood(packet, packet_in)
             return
 
         # The switch didn't know the dst, but the controller does.
         # This happens when a flowrule has timed out on a switch.
         # Let's send packet directly to dst.
-        log.debug("Unicast from {src} to {dst}".format(src=src_mac,
-                                                       dst=dst_mac))
         self.send_packet(packet_in.buffer_id, packet_in.data,
                          dst_port, packet_in.in_port)
 
