@@ -37,7 +37,7 @@ class LearningControllerReactive(ControllerMixin):
         # the switch will only send us packets when there are no matching
         # flow rules, which can be caused by flowrules timing out.
         log.debug("Microflow rule: {} is on port {}".format(src_mac, src_port))
-        self.send_microflow_rule(src_mac, src_port)
+        self.microflow_mac_to_dst_port(src_mac, src_port)
         self.mac_to_port[src_mac] = src_port
 
         # If packet is multicast, flood it.
