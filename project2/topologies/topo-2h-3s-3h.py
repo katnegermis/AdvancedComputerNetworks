@@ -2,11 +2,8 @@ from mininet.topo import Topo
 
 
 class Part2Topology(Topo):
-    "Simple topology example."
 
     def __init__(self):
-        "Create custom topo."
-
         # Initialize topology
         Topo.__init__(self)
 
