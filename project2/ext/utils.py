@@ -82,12 +82,10 @@ class ControllerMixin(object):
         self.send_packet(packet_in.buffer_id, packet_in.data,
                          of.OFPP_FLOOD, packet_in.in_port)
 
-    def add_microflow_mac_to_port(self, packet, packet_in):
-        src_mac = packet.src
-        src_port = packet_in.in_port
-
+    def send_microflow_rule(self, src_mac, src_port):
         fm = of.ofp_flow_mod()
         fm.match.dl_dst = src_mac
+        # Maybe include the buffer id?
         fm.actions.append(of.ofp_action_output(port=src_port))
         self.connection.send(fm)
 

@@ -33,11 +33,11 @@ class LearningControllerReactive(ControllerMixin):
         src_mac = packet.src
         src_port = packet_in.in_port
 
-        # If we didn't already know src_mac, or the mac->port mapping has
-        # changed, we add a microflow rule to the switch.
-        if self.mac_to_port.get(src_mac, None) != src_port:
-            log.debug("Forward packets from {} to port {}".format(src_mac, src_port))
-            self.add_microflow_mac_to_port(packet, packet_in)
+        # Send microflow rule to switch whenever it sends us a packet;
+        # the switch will only send us packets when there are no matching
+        # flow rules, which can be caused by flowrules timing out.
+        log.debug("Microflow rule: {} is on port {}".format(src_mac, src_port))
+        self.send_microflow_rule(src_mac, src_port)
         self.mac_to_port[src_mac] = src_port
 
         # If packet is multicast, flood it.
@@ -45,19 +45,21 @@ class LearningControllerReactive(ControllerMixin):
             self.flood(packet, packet_in)
             return
 
-        # Packet has only a single recipient.
+        # Packet is unicast, and the switch doesn't know the dst.
         dst_mac = packet.dst
         dst_port = self.mac_to_port.get(dst_mac, None)
-        # If we don't yet know the dst port, we flood the packet.
-        if not dst_port:
-            # log.debug("Flooding unicast from {src} to {dst}".format(src=src_mac,
-                                                                    # dst=dst_mac))
+        # If controller doesn't know dst, we flood the packet.
+        if dst_port is None:
+            log.debug("Flooding unicast from {src} to {dst}".format(src=src_mac,
+                                                                    dst=dst_mac))
             self.flood(packet, packet_in)
             return
 
-        # We know dst port. U
-        # log.debug("Unicast from {src} to {dst}".format(src=src_mac,
-                                                       # dst=dst_mac))
+        # The switch didn't know the dst, but the controller does.
+        # This happens when a flowrule has timed out on a switch.
+        # Let's send packet directly to dst.
+        log.debug("Unicast from {src} to {dst}".format(src=src_mac,
+                                                       dst=dst_mac))
         self.send_packet(packet_in.buffer_id, packet_in.data,
                          dst_port, packet_in.in_port)
 
