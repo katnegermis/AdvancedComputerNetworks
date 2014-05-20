@@ -18,6 +18,7 @@
 
 from pox.core import core
 from pox.lib.addresses import EthAddr
+import pox.openflow.libopenflow_01 as of
 
 from utils import ControllerMixin, launch, Global
 
@@ -47,47 +48,32 @@ BROADCAST_MAC = EthAddr((1 << 48) - 1)
 class Part3Controller(ControllerMixin):
     def __init__(self, *args, **kwargs):
         super(Part3Controller, self).__init__(*args, **kwargs)
-        self.handle_packet = self.act_like_switch_reactive
-
-    def act_like_switch_reactive(self, packet, packet_in):
-        if self.switch == 3:
-            return
-        # Learn the port for the source MAC
-        src_mac = packet.src
-        src_port = packet_in.in_port
-
-        # Send microflow rule to switch whenever it sends us a packet;
-        # the switch will only send us packets when there are no matching
-        # flow rules. Flow rules can timeout, so we actually need to do this
-        # for every received packet, and not just for macs we don't know.
-        # We could, of course, set unbounded timeouts on our rules.
-        self.microflow_mac_to_dst_port(src_mac, src_port)
-        self.mac_to_port[src_mac] = src_port
-
-        # If packet is multicast, flood it.
-        if packet.dst.isMulticast():
-            self.flood(packet, packet_in)
-            return
-
-        # Packet is unicast, and the switch doesn't know the dst.
-        dst_mac = packet.dst
-        dst_port = self.mac_to_port.get(dst_mac, None)
-        # If controller doesn't know dst, we flood the packet.
-        if dst_port is None:
-            self.flood(packet, packet_in)
-            return
 
     def _handle_ConnectionUp(self, event):
         self.switch = int(event.dpid)
 
-        # Here, I'm installing static routes in the switches.
+        # Here, I'm installing all routing rules statically in to the switches.
 
         # Forwarding rules for switch 1
         if self.switch == 1:
+            self.microflow_mac_to_dst_port(H1_MAC, S1_PORT_H1)
+            self.microflow_mac_to_dst_port(H2_MAC, S1_PORT_H2)
+            self.microflow_mac_to_dst_port(H3_MAC, S1_PORT_S2)
             self.microflow_mac_to_dst_port(H4_MAC, S1_PORT_S3)
+            self.microflow_mac_to_dst_port(BROADCAST_MAC, of.OFPP_FLOOD)
 
+        # Forwarding rules for switch 2
+        if self.switch == 2:
+            self.microflow_mac_to_dst_port(H1_MAC, S2_PORT_S1)
+            self.microflow_mac_to_dst_port(H2_MAC, S2_PORT_S1)
+            self.microflow_mac_to_dst_port(H3_MAC, S2_PORT_H3)
+            self.microflow_mac_to_dst_port(H4_MAC, S2_PORT_H4)
+            self.microflow_mac_to_dst_port(BROADCAST_MAC, of.OFPP_FLOOD)
+
+        # Forwarding rules for switch 3
         if self.switch == 3:
             self.microflow_mac_to_dst_port(H4_MAC, S3_PORT_S2)
+            self.microflow_dst_mac_drop(BROADCAST_MAC)
 
 
 Global.controller = Part3Controller
