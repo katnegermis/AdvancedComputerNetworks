@@ -50,11 +50,12 @@ class Part3Controller(ControllerMixin):
         self.handle_packet = self.act_like_switch_reactive
 
     def act_like_switch_reactive(self, packet, packet_in):
-        if self.switch == 3:
-            return
         # Learn the port for the source MAC
         src_mac = packet.src
         src_port = packet_in.in_port
+
+        if self.switch == 3:
+            return
 
         # Send microflow rule to switch whenever it sends us a packet;
         # the switch will only send us packets when there are no matching
@@ -76,6 +77,12 @@ class Part3Controller(ControllerMixin):
         if dst_port is None:
             self.flood(packet, packet_in)
             return
+
+        # The switch didn't know the dst, but the controller does.
+        # This happens when a flowrule has timed out on a switch.
+        # Let's send packet directly to dst.
+        self.send_packet(packet_in.buffer_id, packet_in.data,
+                         dst_port, packet_in.in_port)
 
     def _handle_ConnectionUp(self, event):
         self.switch = int(event.dpid)

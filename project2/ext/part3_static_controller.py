@@ -1,21 +1,3 @@
-# Copyright 2012 James McCauley
-#
-# This file is part of POX.
-#
-# POX is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# POX is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.    See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with POX.    If not, see <http://www.gnu.org/licenses/>.
-
-
 from pox.core import core
 from pox.lib.addresses import EthAddr
 import pox.openflow.libopenflow_01 as of
@@ -45,9 +27,13 @@ H4_MAC = EthAddr(4)
 BROADCAST_MAC = EthAddr((1 << 48) - 1)
 
 
-class Part3Controller(ControllerMixin):
+class Part3StaticController(ControllerMixin):
     def __init__(self, *args, **kwargs):
-        super(Part3Controller, self).__init__(*args, **kwargs)
+        super(Part3StaticController, self).__init__(*args, **kwargs)
+        self.handle_packet = self.drop_packets
+
+    def drop_packets(self, packet, packet_in):
+        pass
 
     def _handle_ConnectionUp(self, event):
         self.switch = int(event.dpid)
@@ -73,7 +59,6 @@ class Part3Controller(ControllerMixin):
         # Forwarding rules for switch 3
         if self.switch == 3:
             self.microflow_mac_to_dst_port(H4_MAC, S3_PORT_S2)
-            self.microflow_dst_mac_drop(BROADCAST_MAC)
 
 
-Global.controller = Part3Controller
+Global.controller = Part3StaticController

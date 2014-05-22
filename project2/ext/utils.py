@@ -39,6 +39,7 @@ class ControllerMixin(object):
         # which switch port (keys are MACs, values are ports).
         self.mac_to_port = {}
 
+        # Set an empty default packet handler.
         self.handle_packet = lambda a, b: None
 
     def send_packet(self, buffer_id, raw_data, out_port, in_port):
@@ -88,18 +89,7 @@ class ControllerMixin(object):
         fm = of.ofp_flow_mod()
         fm.match.dl_dst = dst_mac
         # Make rule permanent.
-        fm.match.idle_timeout = of.OFP_FLOW_PERMANENT
-        fm.match.hard_timeout = of.OFP_FLOW_PERMANENT
         fm.actions.append(of.ofp_action_output(port=dst_port))
-        self.connection.send(fm)
-
-    def microflow_dst_mac_drop(self, dst_mac):
-        fm = of.ofp_flow_mod()
-        fm.match.dl_dst = dst_mac
-        # Make rule permanent.
-        fm.match.idle_timeout = of.OFP_FLOW_PERMANENT
-        fm.match.hard_timeout = of.OFP_FLOW_PERMANENT
-        # Assuming that not defining an action == drop packet
         self.connection.send(fm)
 
 
