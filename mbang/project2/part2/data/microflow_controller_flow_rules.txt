@@ -1,0 +1,31 @@
+mininet@mininet-vm:~$ dpctl dump-flows tcp:127.0.0.1:6634
+stats_reply (xid=0x8e56cdfc): flags=none type=1(flow)
+  cookie=0, duration_sec=62s, duration_nsec=56000000s, table_id=0, priority=32768, n_packets=44, n_bytes=4088, idle_timeout=0,hard_timeout=0,dl_dst=00:00:00:00:00:05,actions=output:3
+  cookie=0, duration_sec=62s, duration_nsec=232000000s, table_id=0, priority=32768, n_packets=0, n_bytes=0, idle_timeout=0,hard_timeout=0,dl_dst=12:f2:87:6d:bf:5d,actions=output:3
+  cookie=0, duration_sec=24s, duration_nsec=592000000s, table_id=0, priority=32768, n_packets=34, n_bytes=3220, idle_timeout=0,hard_timeout=0,dl_dst=00:00:00:00:00:03,actions=output:3
+  cookie=0, duration_sec=62s, duration_nsec=323000000s, table_id=0, priority=32768, n_packets=0, n_bytes=0, idle_timeout=0,hard_timeout=0,dl_dst=16:86:d7:36:20:18,actions=output:3
+  cookie=0, duration_sec=24s, duration_nsec=513000000s, table_id=0, priority=32768, n_packets=33, n_bytes=3178, idle_timeout=0,hard_timeout=0,dl_dst=00:00:00:00:00:04,actions=output:3
+  cookie=0, duration_sec=34s, duration_nsec=36000000s, table_id=0, priority=32768, n_packets=79, n_bytes=7462, idle_timeout=0,hard_timeout=0,dl_dst=00:00:00:00:00:01,actions=output:1
+  cookie=0, duration_sec=24s, duration_nsec=806000000s, table_id=0, priority=32768, n_packets=73, n_bytes=6930, idle_timeout=0,hard_timeout=0,dl_dst=00:00:00:00:00:02,actions=output:2
+
+
+mininet@mininet-vm:~$ dpctl dump-flows tcp:127.0.0.1:6635
+stats_reply (xid=0x4e528184): flags=none type=1(flow)
+  cookie=0, duration_sec=63s, duration_nsec=359000000s, table_id=0, priority=32768, n_packets=44, n_bytes=4088, idle_timeout=0,hard_timeout=0,dl_dst=00:00:00:00:00:05,actions=output:2
+  cookie=0, duration_sec=63s, duration_nsec=449000000s, table_id=0, priority=32768, n_packets=0, n_bytes=0, idle_timeout=0,hard_timeout=0,dl_dst=02:53:d9:b5:24:69,actions=output:1
+  cookie=0, duration_sec=25s, duration_nsec=899000000s, table_id=0, priority=32768, n_packets=34, n_bytes=3220, idle_timeout=0,hard_timeout=0,dl_dst=00:00:00:00:00:03,actions=output:2
+  cookie=0, duration_sec=63s, duration_nsec=625000000s, table_id=0, priority=32768, n_packets=0, n_bytes=0, idle_timeout=0,hard_timeout=0,dl_dst=16:86:d7:36:20:18,actions=output:2
+  cookie=0, duration_sec=25s, duration_nsec=816000000s, table_id=0, priority=32768, n_packets=33, n_bytes=3178, idle_timeout=0,hard_timeout=0,dl_dst=00:00:00:00:00:04,actions=output:2
+  cookie=0, duration_sec=35s, duration_nsec=334000000s, table_id=0, priority=32768, n_packets=57, n_bytes=5418, idle_timeout=0,hard_timeout=0,dl_dst=00:00:00:00:00:01,actions=output:1
+  cookie=0, duration_sec=26s, duration_nsec=104000000s, table_id=0, priority=32768, n_packets=56, n_bytes=5264, idle_timeout=0,hard_timeout=0,dl_dst=00:00:00:00:00:02,actions=output:1
+
+
+mininet@mininet-vm:~$ dpctl dump-flows tcp:127.0.0.1:6636
+stats_reply (xid=0x55633b9f): flags=none type=1(flow)
+  cookie=0, duration_sec=64s, duration_nsec=292000000s, table_id=0, priority=32768, n_packets=82, n_bytes=7700, idle_timeout=0,hard_timeout=0,dl_dst=00:00:00:00:00:05,actions=output:3
+  cookie=0, duration_sec=64s, duration_nsec=376000000s, table_id=0, priority=32768, n_packets=0, n_bytes=0, idle_timeout=0,hard_timeout=0,dl_dst=02:53:d9:b5:24:69,actions=output:4
+  cookie=0, duration_sec=26s, duration_nsec=877000000s, table_id=0, priority=32768, n_packets=72, n_bytes=6776, idle_timeout=0,hard_timeout=0,dl_dst=00:00:00:00:00:03,actions=output:1
+  cookie=0, duration_sec=36s, duration_nsec=262000000s, table_id=0, priority=32768, n_packets=57, n_bytes=5418, idle_timeout=0,hard_timeout=0,dl_dst=00:00:00:00:00:01,actions=output:4
+  cookie=0, duration_sec=26s, duration_nsec=815000000s, table_id=0, priority=32768, n_packets=70, n_bytes=6636, idle_timeout=0,hard_timeout=0,dl_dst=00:00:00:00:00:04,actions=output:2
+  cookie=0, duration_sec=64s, duration_nsec=286000000s, table_id=0, priority=32768, n_packets=0, n_bytes=0, idle_timeout=0,hard_timeout=0,dl_dst=e6:fd:de:b3:af:8f,actions=output:4
+  cookie=0, duration_sec=26s, duration_nsec=967000000s, table_id=0, priority=32768, n_packets=56, n_bytes=5264, idle_timeout=0,hard_timeout=0,dl_dst=00:00:00:00:00:02,actions=output:4
